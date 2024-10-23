@@ -1,8 +1,8 @@
-// backend/index.js
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const fetch = require("node-fetch");
 
 const app = express();
 
@@ -45,3 +45,18 @@ app.delete("/api/symbols/:id", async (req, res) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+app.get("/api/prices", async (req, res) => {
+  const symbols = await Symbol.find();
+  const promises = symbols.map(async (symbol) => {
+    // Replace with your API key
+    const apiKey = "YOUR_API_KEY";
+    const response = await fetch(
+      `https://finnhub.io/api/v1/quote?symbol=${symbol.name}&token=${apiKey}`
+    );
+    const data = await response.json();
+    return { symbol: symbol.name, price: data.c };
+  });
+  const prices = await Promise.all(promises);
+  res.send(prices);
+});

@@ -1,0 +1,28 @@
+.ticker {
+    overflow: hidden;
+    background-color: #222;
+    color: #0f0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
+  
+  .ticker__list {
+    display: flex;
+    animation: ticker 20s linear infinite;
+  }
+  
+  .ticker__item {
+    padding: 0 2rem;
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+  
+  @keyframes ticker {
+    from {
+      transform: translate3d(100%, 0, 0);
+    }
+    to {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
